@@ -78,7 +78,7 @@ const getMovieById = (req, res) => {
 };
 
 const getUsers = (req, res) => {
-  let sql = "SELECT * FROM users";
+  let sql = "SELECT id, firstname, lastname, email, city, language FROM users";
   const sqlValues = [];
 
   if (req.query.language != null) {
@@ -109,7 +109,10 @@ const getUsersById = (req, res) => {
   const id = parseInt(req.params.id);
 
   database
-    .query("select * from users where id = ?", [id])
+    .query(
+      "select id, firstname, lastname, email, city, language from users where id = ?",
+      [id]
+    )
     .then(([[result]]) => {
       if (result) {
         res.json(result);
@@ -182,12 +185,13 @@ const updateMovie = (req, res) => {
 
 const updateUser = (req, res) => {
   const id = parseInt(req.params.id);
-  const { firstname, lastname, email, city, language } = req.body;
+  const { firstname, lastname, email, city, language, hashedPassword } =
+    req.body;
 
   database
     .query(
-      "UPDATE users SET firstname = ?, lastname = ?, email = ?, city = ?, language = ? WHERE id = ?",
-      [firstname, lastname, email, city, language, id]
+      "UPDATE users SET firstname = ?, lastname = ?, email = ?, city = ?, language = ?, hashedPassword = ? WHERE id = ?",
+      [firstname, lastname, email, city, language, hashedPassword, id]
     )
     .then(([result]) => {
       if (result.affectedRows === 0) {

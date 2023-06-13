@@ -25,10 +25,10 @@ app.get("/api/users", movieHandlers.getUsers);
 app.get("/api/users/:id", movieHandlers.getUsersById);
 
 app.post("/api/movies", validateMovie, movieHandlers.postMovie);
-app.post("/api/users", hashPassword, movieHandlers.postUser);
+app.post("/api/users", validateUser, hashPassword, movieHandlers.postUser);
 
 app.put("/api/movies/:id", validateMovie, movieHandlers.updateMovie);
-app.put("/api/users/:id", hashPassword, validateUser, movieHandlers.updateUser);
+app.put("/api/users/:id", validateUser, hashPassword, movieHandlers.updateUser);
 
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 app.delete("/api/users/:id", movieHandlers.deleteUser);
